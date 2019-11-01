@@ -1,0 +1,5 @@
+create table galList(
+    gal_no number primary key,
+    gal_name varchar2(1000)
+);
+create sequence seq_galList;

@@ -13,4 +13,21 @@
 	<insert id="writeBoard">
 		insert into gal${gal_name} values(seq_gal${gal_name}.nextval,#{title})
 	</insert>
+	
+	<insert id="makeGallary">
+		create table gal${gal_name}(b_no number primary key,title varchar2(1000))
+	</insert>
+	
+	<insert id="deleteGallary">
+		drop table gal${gal_name}
+	</insert>
+	
+	<select id="existGallary" resultType="_int">
+		select count(*) from user_tables where table_name='GAL${gal_name}'
+	</select>
+	
+	<insert id="insertGalList">
+		insert into gallist values(seq_gallist.nextval,#{gal_name})
+	</insert>
+	
 </mapper>

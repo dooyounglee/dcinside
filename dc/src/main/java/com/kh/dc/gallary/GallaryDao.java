@@ -17,8 +17,23 @@ public class GallaryDao {
 	}
 
 	public int writeBoard(Board b) {
-		// TODO Auto-generated method stub
 		return sqlSession.insert("boardMapper.writeBoard",b);
+	}
+
+	public void makeGallary(Board b) {
+		sqlSession.insert("boardMapper.makeGallary",b);
+	}
+	
+	public int existGallary(Board b) {
+		return sqlSession.selectOne("boardMapper.existGallary",b);
+	}
+
+	public int insertGalList(Board b) {
+		return sqlSession.insert("boardMapper.insertGalList",b);
+	}
+
+	public void deleteGallary(Board b) {
+		sqlSession.insert("boardMapper.deleteGallary",b);
 	}
 	
 	

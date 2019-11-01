@@ -8,5 +8,7 @@ public interface GallaryService {
 
 	int writeBoard(Board b);
 
+	int makeGallary(Board b);
+
 	
 }

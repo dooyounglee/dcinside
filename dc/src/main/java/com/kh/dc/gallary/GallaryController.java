@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@RequestMapping("/gallary/{gal_name}")
+@RequestMapping("/gallary")
 public class GallaryController {
 
 	@Autowired
@@ -21,7 +21,7 @@ public class GallaryController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(GallaryController.class);
 	
-	@GetMapping("/list")
+	@GetMapping("/{gal_name}/list")
 	public ModelAndView gotoGallary(ModelAndView mv, @PathVariable("gal_name") String gal_name) {
 		System.out.println(gal_name);
 
@@ -35,7 +35,7 @@ public class GallaryController {
 		return mv;
 	}
 	
-	@GetMapping("/write")
+	@GetMapping("/{gal_name}/write")
 	public ModelAndView writeGet(ModelAndView mv, @PathVariable("gal_name") String gal_name) {
 		System.out.println("넘어간다");
 		
@@ -44,13 +44,30 @@ public class GallaryController {
 		return mv;
 	}
 	
-	@PostMapping("/write")
+	@PostMapping("/{gal_name}/write")
 	public ModelAndView writePost(ModelAndView mv, @PathVariable("gal_name") String gal_name, Board b) {
 		System.out.println(b);
 		int result=bService.writeBoard(b);
 		
 		mv.setViewName("redirect:/gallary/"+gal_name+"/list");
 		//mv.addObject("gal_name", gal_name);
+		return mv;
+	}
+	
+	@GetMapping("/make.gal")
+	public ModelAndView makeGet(ModelAndView mv) {
+		mv.setViewName("gallary/make");
+		return mv;
+	}
+	
+	@PostMapping("/make.gal")
+	public ModelAndView makePost(ModelAndView mv, Board b) {
+		int result=bService.makeGallary(b);
+		if(result>0) {
+			mv.setViewName("redirect:/");
+		}else {
+			
+		}
 		return mv;
 	}
 }

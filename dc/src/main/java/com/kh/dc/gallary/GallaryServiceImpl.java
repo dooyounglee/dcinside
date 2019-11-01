@@ -21,4 +21,25 @@ public class GallaryServiceImpl implements GallaryService {
 		return bDao.writeBoard(b);
 	}
 
+	@Override
+	public int makeGallary(Board b) {
+		
+		b.setGal_name(b.getGal_name().toUpperCase());
+		
+		//이미 있는지 확인
+		int result=bDao.existGallary(b);
+		if(result>0) {//있으면
+			return 0;
+		}else {//없었으면 만들자
+			bDao.makeGallary(b);//create table
+			result=bDao.existGallary(b);
+			if(result>0) {
+				result=bDao.insertGalList(b);//gallist에 insert
+			}else {
+				bDao.deleteGallary(b);
+			}
+			return result;
+		}
+	}
+
 }

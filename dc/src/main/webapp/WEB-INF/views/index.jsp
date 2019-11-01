@@ -9,6 +9,6 @@
 </head>
 <body>
 	<%@ include file="include/header.jsp" %>
-	index
+	<a href="${cp }/gallary/make.gal">맹글기</a>
 </body>
 </html>
