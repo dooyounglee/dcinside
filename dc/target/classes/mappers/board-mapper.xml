@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="boardMapper">
+	<resultMap type="Board" id="blistResultSet">
+		<id column="b_no" property="b_no"/>
+		<result column="title" property="title"/>
+	</resultMap>
+
+	<select id="selectBoardList" parameterType="Board" resultMap="blistResultSet">
+		select * from gal${gal_name}
+	</select>
+	
+	<insert id="writeBoard">
+		insert into gal${gal_name} values(seq_gal${gal_name}.nextval,#{title})
+	</insert>
+</mapper>
