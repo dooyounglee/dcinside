@@ -9,20 +9,24 @@
 </head>
 <body>
 	<%@ include file="../include/header.jsp" %>
-<h1>${gal_name }갤러리 입니다.</h1>
-<a href="${cp}/gallary/${gal_name }/write">글쓰기</a>
-<table border=1>
-	<tr>
-		<th>번호</th>
-		<th>제목</th>
-	</tr>
-	<c:forEach var="b" items="${list }">
-	<tr>
-		<td>${b.b_no}</td>
-		<td>${b.title}</td>
-	</tr>
-	</c:forEach>
+	<h1>${gal_name }갤러리 입니다.</h1>
+	<form action="${cp}/gallary/drop.gal" method="post">
+		<input type="hidden" name="gal_name" value="${gal_name }">
+		<button>삭제</button>
+	</form>
 	
-</table>
+	<a href="${cp}/gallary/${gal_name }/write">글쓰기</a>
+	<table border=1>
+		<tr>
+			<th>번호</th>
+			<th>제목</th>
+		</tr>
+		<c:forEach var="b" items="${list }">
+		<tr>
+			<td>${b.b_no}</td>
+			<td><a href="${cp}/gallary/${gal_name }/get?b_no=${b.b_no}">${b.title}</a></td>
+		</tr>
+		</c:forEach>
+	</table>
 </body>
 </html>

@@ -10,5 +10,13 @@ public interface GallaryService {
 
 	int makeGallary(Board b);
 
+	List<Gallary> getGallaryList();
+
+	int dropGallary(Board b);
+
+	Board getBoard(Board b);
+
+	int editBoard(Board b);
+
 	
 }

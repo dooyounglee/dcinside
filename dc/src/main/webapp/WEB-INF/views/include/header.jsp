@@ -8,9 +8,8 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<c:set var="cp" value="${pageContext.request.contextPath }" scope="application"></c:set>
-<a href="${cp }/gallary/a/list">a갤러리</a>
-<a href="${cp }/gallary/b/list">b갤러리</a>
+	<c:set var="cp" value="${pageContext.request.contextPath }" scope="application"/>
+	<a href="${cp }">main</a>
 <hr>
 </body>
 </html>

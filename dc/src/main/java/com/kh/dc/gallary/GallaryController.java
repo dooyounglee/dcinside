@@ -1,6 +1,11 @@
 package com.kh.dc.gallary;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequestWrapper;
+import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,6 +15,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -23,7 +30,6 @@ public class GallaryController {
 	
 	@GetMapping("/{gal_name}/list")
 	public ModelAndView gotoGallary(ModelAndView mv, @PathVariable("gal_name") String gal_name) {
-		System.out.println(gal_name);
 
 		Board b=new Board();
 		b.setGal_name(gal_name);
@@ -37,7 +43,6 @@ public class GallaryController {
 	
 	@GetMapping("/{gal_name}/write")
 	public ModelAndView writeGet(ModelAndView mv, @PathVariable("gal_name") String gal_name) {
-		System.out.println("넘어간다");
 		
 		mv.setViewName("gallary/write");
 		mv.addObject("gal_name", gal_name);
@@ -50,9 +55,65 @@ public class GallaryController {
 		int result=bService.writeBoard(b);
 		
 		mv.setViewName("redirect:/gallary/"+gal_name+"/list");
-		//mv.addObject("gal_name", gal_name);
 		return mv;
 	}
+	
+	@GetMapping("/{gal_name}/get")
+	public ModelAndView getGet(ModelAndView mv, @PathVariable("gal_name") String gal_name, Board b) {
+		System.out.println("넘어간다"+gal_name+b);
+		b.setGal_name(gal_name);
+		b=bService.getBoard(b);
+		mv.setViewName("gallary/get");
+		mv.addObject("b", b);
+		return mv;
+	}
+	
+	@GetMapping("/{gal_name}/edit")
+	public ModelAndView editGet(ModelAndView mv, @PathVariable("gal_name") String gal_name, Board b) {
+		System.out.println("넘어간다"+gal_name+b);
+		b.setGal_name(gal_name);
+		
+		b=bService.getBoard(b);
+		mv.setViewName("gallary/write");
+		mv.addObject("b", b);
+		return mv;
+	}
+	
+	@PostMapping("/{gal_name}/edit")
+	public ModelAndView editPost(ModelAndView mv, @PathVariable("gal_name") String gal_name, Board b) {
+		System.out.println("넘어간다"+gal_name+b);
+		b.setGal_name(gal_name);
+		
+		int result=bService.editBoard(b);
+		System.out.println("수정?"+result);
+		if(result>0) {
+			b=bService.getBoard(b);
+			System.out.println("수정0"+b);
+		}else {
+			System.out.println("수정-1");
+		}
+		mv.setViewName("redirect:/gallary/"+gal_name+"/get?b_no="+b.getB_no());
+		mv.addObject("b", b);
+		return mv;
+	}
+	
+	@PostMapping("/upload")
+	public void upload(MultipartHttpServletRequest req,HttpServletResponse res) {
+		MultipartFile file=req.getFile("uploadFile");
+		String savePath=req.getSession().getServletContext().getRealPath("resources");
+		String filePath=savePath+"\\upload\\"+file.getOriginalFilename();
+		try {
+			file.transferTo(new File(filePath));
+			res.getWriter().println(file.getOriginalFilename());
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	
 	
 	@GetMapping("/make.gal")
 	public ModelAndView makeGet(ModelAndView mv) {
@@ -65,8 +126,15 @@ public class GallaryController {
 		int result=bService.makeGallary(b);
 		if(result>0) {
 			mv.setViewName("redirect:/");
-		}else {
-			
+		}
+		return mv;
+	}
+	
+	@PostMapping("/drop.gal")
+	public ModelAndView dropPost(ModelAndView mv, Board b) {
+		int result=bService.dropGallary(b);
+		if(result>0) {
+			mv.setViewName("redirect:/");
 		}
 		return mv;
 	}

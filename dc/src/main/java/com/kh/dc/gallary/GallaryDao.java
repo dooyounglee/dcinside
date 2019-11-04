@@ -35,6 +35,30 @@ public class GallaryDao {
 	public void deleteGallary(Board b) {
 		sqlSession.insert("boardMapper.deleteGallary",b);
 	}
+
+	public List<Gallary> getGallaryList() {
+		return sqlSession.selectList("boardMapper.getGallaryList");
+	}
+
+	public void makeSequence(Board b) {
+		sqlSession.insert("boardMapper.makeSequence",b);
+	}
+
+	public void dropSequence(Board b) {
+		sqlSession.insert("boardMapper.dropSequence",b);
+	}
+
+	public int deleteGallaryList(Board b) {
+		return sqlSession.delete("boardMapper.deleteGallaryList",b);
+	}
+
+	public Board getBoard(Board b) {
+		return sqlSession.selectOne("boardMapper.getBoard",b);
+	}
+
+	public int editBoard(Board b) {
+		return sqlSession.update("boardMapper.editBoard",b);
+	}
 	
 	
 }

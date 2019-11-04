@@ -32,6 +32,7 @@ public class GallaryServiceImpl implements GallaryService {
 			return 0;
 		}else {//없었으면 만들자
 			bDao.makeGallary(b);//create table
+			bDao.makeSequence(b);//create sequence
 			result=bDao.existGallary(b);
 			if(result>0) {
 				result=bDao.insertGalList(b);//gallist에 insert
@@ -40,6 +41,37 @@ public class GallaryServiceImpl implements GallaryService {
 			}
 			return result;
 		}
+	}
+
+	@Override
+	public List<Gallary> getGallaryList() {
+		return bDao.getGallaryList();
+	}
+
+	@Override
+	public int dropGallary(Board b) {
+		
+		b.setGal_name(b.getGal_name().toUpperCase());
+
+		bDao.deleteGallary(b);//drop table
+		bDao.dropSequence(b);//drop sequence
+		int result=bDao.existGallary(b);
+		System.out.println("몇개?"+result);
+		if(result<1) {
+			result=bDao.deleteGallaryList(b);
+			System.out.println("지웠찌?"+result);
+		}
+		return result;
+	}
+
+	@Override
+	public Board getBoard(Board b) {
+		return bDao.getBoard(b);
+	}
+
+	@Override
+	public int editBoard(Board b) {
+		return bDao.editBoard(b);
 	}
 
 }
