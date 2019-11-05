@@ -18,6 +18,7 @@ public class GallaryController {
 
 	@Autowired
 	private GallaryService bService;
+
 	
 	private static final Logger logger = LoggerFactory.getLogger(GallaryController.class);
 	
