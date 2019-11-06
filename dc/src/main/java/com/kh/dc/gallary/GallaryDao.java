@@ -59,6 +59,34 @@ public class GallaryDao {
 	public int editBoard(Board b) {
 		return sqlSession.update("boardMapper.editBoard",b);
 	}
+
+	public int writeReply(Reply r) {
+		return sqlSession.update("boardMapper.writeReply",r);
+	}
+
+	public void makeGallaryReply(Board b) {
+		sqlSession.insert("boardMapper.makeGallaryReply",b);
+	}
+
+	public void makeSequenceReply(Board b) {
+		sqlSession.insert("boardMapper.makeSequenceReply",b);
+	}
+	
+	public void dropGallaryReply(Board b) {
+		sqlSession.insert("boardMapper.dropGallaryReply",b);
+	}
+	
+	public void dropSequenceReply(Board b) {
+		sqlSession.insert("boardMapper.dropSequenceReply",b);
+	}
+
+	public List<Reply> getReplyList(Board b) {
+		System.out.println("dao");
+		System.out.println(b);
+		System.out.println(sqlSession.selectList("boardMapper.getReplyList",b));
+		return sqlSession.selectList("boardMapper.getReplyList",b);
+	}
+
 	
 	
 }

@@ -38,6 +38,7 @@ public class GallaryController {
 		mv.setViewName("gallary/list");
 		mv.addObject("gal_name", gal_name);
 		mv.addObject("list",list);
+		
 		return mv;
 	}
 	
@@ -62,9 +63,14 @@ public class GallaryController {
 	public ModelAndView getGet(ModelAndView mv, @PathVariable("gal_name") String gal_name, Board b) {
 		System.out.println("넘어간다"+gal_name+b);
 		b.setGal_name(gal_name);
-		b=bService.getBoard(b);
+		System.out.println(b+"-");
+		Board getb=bService.getBoard(b);
+		System.out.println(b+"--");
+		List<Reply> rlist=bService.getReplyList(b);
+		
 		mv.setViewName("gallary/get");
-		mv.addObject("b", b);
+		mv.addObject("b", getb);
+		mv.addObject("rlist",rlist);
 		return mv;
 	}
 	
@@ -81,16 +87,12 @@ public class GallaryController {
 	
 	@PostMapping("/{gal_name}/edit")
 	public ModelAndView editPost(ModelAndView mv, @PathVariable("gal_name") String gal_name, Board b) {
-		System.out.println("넘어간다"+gal_name+b);
 		b.setGal_name(gal_name);
 		
 		int result=bService.editBoard(b);
-		System.out.println("수정?"+result);
 		if(result>0) {
 			b=bService.getBoard(b);
-			System.out.println("수정0"+b);
 		}else {
-			System.out.println("수정-1");
 		}
 		mv.setViewName("redirect:/gallary/"+gal_name+"/get?b_no="+b.getB_no());
 		mv.addObject("b", b);
@@ -111,9 +113,6 @@ public class GallaryController {
 			e.printStackTrace();
 		}
 	}
-	
-	
-	
 	
 	@GetMapping("/make.gal")
 	public ModelAndView makeGet(ModelAndView mv) {
@@ -136,6 +135,19 @@ public class GallaryController {
 		if(result>0) {
 			mv.setViewName("redirect:/");
 		}
+		return mv;
+	}
+	
+	//reply
+	@PostMapping("/{gal_name}/write.reply")
+	public ModelAndView writeReplyPost(ModelAndView mv, @PathVariable("gal_name") String gal_name, Reply r) {
+		System.out.println(r);
+		int result=bService.writeReply(r);
+		System.out.println(result);
+//		if(result>0) {
+//			mv.setViewName("redirect:/");
+//		}
+		mv.setViewName("redirect:/gallary/"+gal_name+"/get?b_no="+r.getB_no());
 		return mv;
 	}
 }
