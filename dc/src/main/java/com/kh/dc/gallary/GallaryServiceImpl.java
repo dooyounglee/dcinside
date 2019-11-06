@@ -31,8 +31,10 @@ public class GallaryServiceImpl implements GallaryService {
 		if(result>0) {//있으면
 			return 0;
 		}else {//없었으면 만들자
-			bDao.makeGallary(b);//create table
+			bDao.makeGallary(b);//create table gal-
 			bDao.makeSequence(b);//create sequence
+			bDao.makeGallaryReply(b);//create table regal-
+			bDao.makeSequenceReply(b);//create sequence regal-
 			result=bDao.existGallary(b);
 			if(result>0) {
 				result=bDao.insertGalList(b);//gallist에 insert
@@ -54,7 +56,9 @@ public class GallaryServiceImpl implements GallaryService {
 		b.setGal_name(b.getGal_name().toUpperCase());
 
 		bDao.deleteGallary(b);//drop table
-		bDao.dropSequence(b);//drop sequence
+		bDao.dropSequence(b);//drop sequence gal-
+		bDao.dropGallaryReply(b);//drop reply
+		bDao.dropSequenceReply(b);//drop sequece regal-
 		int result=bDao.existGallary(b);
 		System.out.println("몇개?"+result);
 		if(result<1) {
@@ -72,6 +76,19 @@ public class GallaryServiceImpl implements GallaryService {
 	@Override
 	public int editBoard(Board b) {
 		return bDao.editBoard(b);
+	}
+
+	@Override
+	public int writeReply(Reply r) {
+		return bDao.writeReply(r);
+	}
+
+	@Override
+	public List<Reply> getReplyList(Board b) {
+		System.out.println("service");
+		System.out.println(b);
+		System.out.println(bDao.getReplyList(b));
+		return bDao.getReplyList(b);
 	}
 
 }

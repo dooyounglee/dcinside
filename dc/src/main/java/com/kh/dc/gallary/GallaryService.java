@@ -18,5 +18,9 @@ public interface GallaryService {
 
 	int editBoard(Board b);
 
+	int writeReply(Reply r);
+
+	List<Reply> getReplyList(Board b);
+
 	
 }
