@@ -23,15 +23,17 @@
 	닉:<input id="nick"><input id="content"><button id="replyInsert">답글</button>
 	<div id="replyArea">
 		<c:forEach var="r" items="${rlist }">
-			<div class="replyDetail">
-				${r.content }<button class="replyDelete" data-re_no="${r.re_no }">삭제</button>
+			<div class="replyDetail" data-re_no="${r.re_no }">
+				${r.content }
+				<button class="replyDelete">삭제</button>
+				<button class="replyInput">답글</button>
 			</div>
 		</c:forEach>
 		
 	</div>
 	<script>
 		function replyView(){
-			$('#replyArea').load('/dc/gallary/${gal_name }/get?b_no='+${b.b_no }+' #replyArea')
+			$('#replyArea').load('/dc/gallary/${gal_name }/get?b_no=${b.b_no } #replyArea')
 		}
 	
 		$(document).on('click','#replyInsert',function(){
@@ -52,7 +54,7 @@
 		})
 		
 		$(document).on('click','.replyDelete',function(){
-			var re_no=$(this).data('re_no')
+			var re_no=$(this).closest('div.replyDetail').data('re_no')
 			$.ajax({
 				url:'delete.reply',
 				type:'post',
@@ -63,6 +65,12 @@
 					replyView()
 				},
 			})
+		})
+		
+		$(document).on('click','.replyInput',function(){
+			var replyDetail=$(this).closest('div.replyDetail');
+			replyDetail.append("<br>ㄴ<input>")
+			replyDetail.append("<button>완료</button>")
 		})
 		
 	</script>
