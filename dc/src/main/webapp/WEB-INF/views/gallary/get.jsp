@@ -18,15 +18,30 @@
 		<button>수정</button>
 	</form>
 	
+	<input type="hidden" id="b_no" value="${b.b_no }">
+	닉:<input id="nick"><input id="content"><button id="replyInsert">답글</button>
 	<div id="replyArea">
 		<c:forEach var="r" items="${rlist }">
-			${r }<br>
+			${r.content }<br>
 		</c:forEach>
 		
-		<form action="${cp}/gallary/${gal_name }/write.reply" method="post">
-			<input type="hidden" name="b_no" value="${b.b_no }">
-			닉:<input name="nick"><input name="content"><button>답글</button>
-		</form>
 	</div>
+	<script>
+		$(document).on('click','#replyInsert',function(){
+			$.ajax({
+				url:'write.reply',
+				type:'post',
+				data:{
+					gal_name:'${gal_name }',
+					b_no:$('#b_no').val(),
+					nick:$('#nick').val(),
+					content:$('#content').val(),
+				},
+				success:function(data){
+					alert(data)
+				},
+			})
+		})
+	</script>
 </body>
 </html>

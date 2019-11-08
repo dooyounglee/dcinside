@@ -22,5 +22,9 @@ public interface GallaryService {
 
 	List<Reply> getReplyList(Board b);
 
+	Reply getReply(Reply r);
+
+	Reply getLastestReply(Reply r);
+
 	
 }

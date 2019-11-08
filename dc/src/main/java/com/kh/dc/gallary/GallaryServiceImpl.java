@@ -85,10 +85,17 @@ public class GallaryServiceImpl implements GallaryService {
 
 	@Override
 	public List<Reply> getReplyList(Board b) {
-		System.out.println("service");
-		System.out.println(b);
-		System.out.println(bDao.getReplyList(b));
 		return bDao.getReplyList(b);
+	}
+
+	@Override
+	public Reply getReply(Reply r) {
+		return bDao.getReply(r);
+	}
+
+	@Override
+	public Reply getLastestReply(Reply r) {
+		return bDao.getLastestReply(r);
 	}
 
 }

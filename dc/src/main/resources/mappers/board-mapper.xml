@@ -87,4 +87,12 @@
 	<select id="getReplyList" parameterType="Board" resultMap="rlistResultSet">
 		select * from regal${gal_name}
 	</select>
+	
+	<select id="getReply" resultType="Reply">
+		select * from regal${gal_name} where re_no=#{re_no}
+	</select>
+	
+	<select id="getLastestReply" resultType="Reply">
+		select * from (select * from regal${gal_name} order by 1 desc) where rownum=1
+	</select>
 </mapper>

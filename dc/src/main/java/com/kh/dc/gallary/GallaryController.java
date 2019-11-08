@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
@@ -139,15 +140,14 @@ public class GallaryController {
 	}
 	
 	//reply
+	@ResponseBody
 	@PostMapping("/{gal_name}/write.reply")
-	public ModelAndView writeReplyPost(ModelAndView mv, @PathVariable("gal_name") String gal_name, Reply r) {
+	public String writeReplyPost(ModelAndView mv, @PathVariable("gal_name") String gal_name, Reply r) {
+		r.setGal_name(gal_name);
 		System.out.println(r);
-		int result=bService.writeReply(r);
-		System.out.println(result);
-//		if(result>0) {
-//			mv.setViewName("redirect:/");
-//		}
-		mv.setViewName("redirect:/gallary/"+gal_name+"/get?b_no="+r.getB_no());
-		return mv;
+		Reply newestr=bService.getLastestReply(r);
+		newestr.setGal_name(gal_name);
+		System.out.println(newestr);
+		return newestr.toString();
 	}
 }

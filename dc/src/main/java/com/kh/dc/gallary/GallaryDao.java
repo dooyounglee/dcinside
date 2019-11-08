@@ -81,10 +81,15 @@ public class GallaryDao {
 	}
 
 	public List<Reply> getReplyList(Board b) {
-		System.out.println("dao");
-		System.out.println(b);
-		System.out.println(sqlSession.selectList("boardMapper.getReplyList",b));
 		return sqlSession.selectList("boardMapper.getReplyList",b);
+	}
+
+	public Reply getReply(Reply r) {
+		return sqlSession.selectOne("boardMapper.getReply",r);
+	}
+
+	public Reply getLastestReply(Reply r) {
+		return sqlSession.selectOne("boardMapper.getLastestReply",r);
 	}
 
 	
