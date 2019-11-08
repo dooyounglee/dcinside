@@ -143,15 +143,12 @@ public class GallaryController {
 	
 	//reply
 	@ResponseBody
-	@PostMapping(value="/{gal_name}/write.reply", produces ="application/json; charset=utf-8")
+	@PostMapping("/{gal_name}/write.reply")
 	public String writeReplyPost(@PathVariable("gal_name") String gal_name, Reply r) {
 		r.setGal_name(gal_name);
 		int result=bService.writeReply(r);
 		if(result>0) {
-			Reply newestr=bService.getLastestReply(r);
-			newestr.setGal_name(gal_name);
-			Gson gson=new GsonBuilder().create();
-			return gson.toJson(newestr);
+			return "success";
 		}else {
 			return "fail";
 		}
@@ -162,6 +159,31 @@ public class GallaryController {
 	public String deleteReplyPost(@PathVariable("gal_name") String gal_name, Reply r) {
 		r.setGal_name(gal_name);
 		int result=bService.deleteReply(r);
+		if(result>0) {
+			return "success";
+		}else {
+			return "fail";
+		}
+	}
+	
+	@ResponseBody
+	@PostMapping("/{gal_name}/write.rereply")
+	public String writeReReplyPost(@PathVariable("gal_name") String gal_name, Reply r) {
+		r.setGal_name(gal_name);
+		System.out.println(r);
+		int result=bService.writeReReply(r);
+		if(result>0) {
+			return "success";
+		}else {
+			return "fail";
+		}
+	}
+	
+	@ResponseBody
+	@PostMapping(value="/{gal_name}/delete.rereply")
+	public String deleteReReplyPost(@PathVariable("gal_name") String gal_name, Reply r) {
+		r.setGal_name(gal_name);
+		int result=bService.deleteReReply(r);
 		if(result>0) {
 			return "success";
 		}else {

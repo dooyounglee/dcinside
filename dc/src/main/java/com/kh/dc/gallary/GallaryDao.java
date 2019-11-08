@@ -93,7 +93,15 @@ public class GallaryDao {
 	}
 
 	public int deleteReply(Reply r) {
-		return sqlSession.delete("boardMapper.deleteReply",r);
+		return sqlSession.update("boardMapper.deleteReply",r);
+	}
+
+	public int writeReReply(Reply r) {
+		return sqlSession.update("boardMapper.writeReReply",r);
+	}
+
+	public int deleteReReply(Reply r) {
+		return sqlSession.delete("boardMapper.deleteReReply",r);
 	}
 
 	

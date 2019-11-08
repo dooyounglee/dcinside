@@ -103,4 +103,14 @@ public class GallaryServiceImpl implements GallaryService {
 		return bDao.deleteReply(r);
 	}
 
+	@Override
+	public int writeReReply(Reply r) {
+		return bDao.writeReReply(r);
+	}
+
+	@Override
+	public int deleteReReply(Reply r) {
+		return bDao.deleteReReply(r);
+	}
+
 }

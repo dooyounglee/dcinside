@@ -9,6 +9,8 @@
 	<resultMap type="Reply" id="rlistResultSet">
 		<id column="re_no" property="re_no"/>
 		<result column="b_no" property="b_no"/>
+		<result column="re_no2" property="re_no2"/>
+		<result column="rere" property="rere"/>
 		<result column="content" property="content"/>
 	</resultMap>
 
@@ -34,7 +36,10 @@
 		create table regal${gal_name}(
 			re_no number primary key,
 			b_no number,
-    		content clob
+			re_no2 number,
+			rere number,
+    		content clob,
+    		status varchar2(10)
 		)
 	</insert>
 	<insert id="makeSequenceReply">
@@ -82,11 +87,11 @@
 	
 	<!-- reply -->
 	<insert id="writeReply">
-		insert into regal${gal_name} values(seq_regal${gal_name}.nextval,#{b_no},#{content})
+		insert into regal${gal_name} values(seq_regal${gal_name}.nextval,#{b_no},seq_regal${gal_name}.currval,0,#{content},'Y')
 	</insert>
 	
 	<select id="getReplyList" parameterType="Board" resultMap="rlistResultSet">
-		select * from regal${gal_name} order by 1 asc
+		select * from regal${gal_name} order by re_no2,re_no
 	</select>
 	
 	<select id="getReply" resultType="Reply">
@@ -97,7 +102,15 @@
 		select * from (select * from regal${gal_name} order by 1 desc) where rownum=1
 	</select>
 	
-	<delete id="deleteReply">
+	<update id="deleteReply">
+		update regal${gal_name} set status='N' where re_no=#{re_no}
+	</update>
+	
+	<insert id="writeReReply">
+		insert into regal${gal_name} values(seq_regal${gal_name}.nextval,#{b_no},#{re_no2},1,#{content},'Y')
+	</insert>
+	
+	<delete id="deleteReReply">
 		delete from regal${gal_name} where re_no=#{re_no}
 	</delete>
 </mapper>

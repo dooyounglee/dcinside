@@ -28,5 +28,9 @@ public interface GallaryService {
 
 	int deleteReply(Reply r);
 
+	int writeReReply(Reply r);
+
+	int deleteReReply(Reply r);
+
 	
 }
