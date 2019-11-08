@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
 
@@ -19,6 +20,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 @Controller
 @RequestMapping("/gallary")
@@ -53,7 +57,7 @@ public class GallaryController {
 	
 	@PostMapping("/{gal_name}/write")
 	public ModelAndView writePost(ModelAndView mv, @PathVariable("gal_name") String gal_name, Board b) {
-		System.out.println(b);
+		
 		int result=bService.writeBoard(b);
 		
 		mv.setViewName("redirect:/gallary/"+gal_name+"/list");
@@ -62,11 +66,9 @@ public class GallaryController {
 	
 	@GetMapping("/{gal_name}/get")
 	public ModelAndView getGet(ModelAndView mv, @PathVariable("gal_name") String gal_name, Board b) {
-		System.out.println("넘어간다"+gal_name+b);
+
 		b.setGal_name(gal_name);
-		System.out.println(b+"-");
 		Board getb=bService.getBoard(b);
-		System.out.println(b+"--");
 		List<Reply> rlist=bService.getReplyList(b);
 		
 		mv.setViewName("gallary/get");
@@ -77,7 +79,7 @@ public class GallaryController {
 	
 	@GetMapping("/{gal_name}/edit")
 	public ModelAndView editGet(ModelAndView mv, @PathVariable("gal_name") String gal_name, Board b) {
-		System.out.println("넘어간다"+gal_name+b);
+
 		b.setGal_name(gal_name);
 		
 		b=bService.getBoard(b);
@@ -141,13 +143,29 @@ public class GallaryController {
 	
 	//reply
 	@ResponseBody
-	@PostMapping("/{gal_name}/write.reply")
-	public String writeReplyPost(ModelAndView mv, @PathVariable("gal_name") String gal_name, Reply r) {
+	@PostMapping(value="/{gal_name}/write.reply", produces ="application/json; charset=utf-8")
+	public String writeReplyPost(@PathVariable("gal_name") String gal_name, Reply r) {
 		r.setGal_name(gal_name);
-		System.out.println(r);
-		Reply newestr=bService.getLastestReply(r);
-		newestr.setGal_name(gal_name);
-		System.out.println(newestr);
-		return newestr.toString();
+		int result=bService.writeReply(r);
+		if(result>0) {
+			Reply newestr=bService.getLastestReply(r);
+			newestr.setGal_name(gal_name);
+			Gson gson=new GsonBuilder().create();
+			return gson.toJson(newestr);
+		}else {
+			return "fail";
+		}
+	}
+	
+	@ResponseBody
+	@PostMapping(value="/{gal_name}/delete.reply")
+	public String deleteReplyPost(@PathVariable("gal_name") String gal_name, Reply r) {
+		r.setGal_name(gal_name);
+		int result=bService.deleteReply(r);
+		if(result>0) {
+			return "success";
+		}else {
+			return "fail";
+		}
 	}
 }

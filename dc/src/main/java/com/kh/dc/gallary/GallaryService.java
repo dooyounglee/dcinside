@@ -26,5 +26,7 @@ public interface GallaryService {
 
 	Reply getLastestReply(Reply r);
 
+	int deleteReply(Reply r);
+
 	
 }

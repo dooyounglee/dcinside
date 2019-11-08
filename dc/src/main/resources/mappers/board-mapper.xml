@@ -8,6 +8,7 @@
 	
 	<resultMap type="Reply" id="rlistResultSet">
 		<id column="re_no" property="re_no"/>
+		<result column="b_no" property="b_no"/>
 		<result column="content" property="content"/>
 	</resultMap>
 
@@ -29,7 +30,6 @@
 	<insert id="makeSequence">
 		create sequence seq_gal${gal_name}
 	</insert>
-	
 	<insert id="makeGallaryReply">
 		create table regal${gal_name}(
 			re_no number primary key,
@@ -41,19 +41,20 @@
 		create sequence seq_regal${gal_name}
 	</insert>
 	
+	
 	<insert id="deleteGallary">
 		drop table gal${gal_name}
 	</insert>
 	<insert id="dropSequence">
 		drop sequence seq_gal${gal_name}
 	</insert>
-	
 	<insert id="dropGallaryReply">
 		drop table regal${gal_name}
 	</insert>
 	<insert id="dropSequenceReply">
 		drop sequence seq_regal${gal_name}
 	</insert>
+	
 	
 	<select id="existGallary" resultType="_int">
 		select count(*) from user_tables where table_name='GAL${gal_name}'
@@ -85,7 +86,7 @@
 	</insert>
 	
 	<select id="getReplyList" parameterType="Board" resultMap="rlistResultSet">
-		select * from regal${gal_name}
+		select * from regal${gal_name} order by 1 asc
 	</select>
 	
 	<select id="getReply" resultType="Reply">
@@ -95,4 +96,8 @@
 	<select id="getLastestReply" resultType="Reply">
 		select * from (select * from regal${gal_name} order by 1 desc) where rownum=1
 	</select>
+	
+	<delete id="deleteReply">
+		delete from regal${gal_name} where re_no=#{re_no}
+	</delete>
 </mapper>

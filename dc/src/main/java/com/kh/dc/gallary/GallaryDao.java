@@ -92,6 +92,10 @@ public class GallaryDao {
 		return sqlSession.selectOne("boardMapper.getLastestReply",r);
 	}
 
+	public int deleteReply(Reply r) {
+		return sqlSession.delete("boardMapper.deleteReply",r);
+	}
+
 	
 	
 }

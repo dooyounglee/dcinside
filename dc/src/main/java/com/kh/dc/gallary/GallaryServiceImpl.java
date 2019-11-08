@@ -98,4 +98,9 @@ public class GallaryServiceImpl implements GallaryService {
 		return bDao.getLastestReply(r);
 	}
 
+	@Override
+	public int deleteReply(Reply r) {
+		return bDao.deleteReply(r);
+	}
+
 }

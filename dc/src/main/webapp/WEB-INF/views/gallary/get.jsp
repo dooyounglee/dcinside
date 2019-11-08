@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="http://code.jquery.com/jquery-3.4.1.js"></script>
 </head>
 <body>
 	<%@ include file="../include/header.jsp" %>
@@ -22,26 +23,48 @@
 	닉:<input id="nick"><input id="content"><button id="replyInsert">답글</button>
 	<div id="replyArea">
 		<c:forEach var="r" items="${rlist }">
-			${r.content }<br>
+			<div class="replyDetail">
+				${r.content }<button class="replyDelete" data-re_no="${r.re_no }">삭제</button>
+			</div>
 		</c:forEach>
 		
 	</div>
 	<script>
+		function replyView(){
+			$('#replyArea').load('/dc/gallary/${gal_name }/get?b_no='+${b.b_no }+' #replyArea')
+		}
+	
 		$(document).on('click','#replyInsert',function(){
 			$.ajax({
 				url:'write.reply',
 				type:'post',
 				data:{
-					gal_name:'${gal_name }',
-					b_no:$('#b_no').val(),
+					b_no:${b.b_no },
 					nick:$('#nick').val(),
 					content:$('#content').val(),
 				},
+				dataType:'json',
 				success:function(data){
-					alert(data)
+					replyView()
+					$('#content').val('')
 				},
 			})
 		})
+		
+		$(document).on('click','.replyDelete',function(){
+			var re_no=$(this).data('re_no')
+			$.ajax({
+				url:'delete.reply',
+				type:'post',
+				data:{
+					re_no:re_no,
+				},
+				success:function(data){
+					replyView()
+				},
+			})
+		})
+		
 	</script>
 </body>
 </html>
