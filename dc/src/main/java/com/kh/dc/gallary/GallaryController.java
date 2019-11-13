@@ -170,7 +170,6 @@ public class GallaryController {
 	@PostMapping("/{gal_name}/write.rereply")
 	public String writeReReplyPost(@PathVariable("gal_name") String gal_name, Reply r) {
 		r.setGal_name(gal_name);
-		System.out.println(r);
 		int result=bService.writeReReply(r);
 		if(result>0) {
 			return "success";

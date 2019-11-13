@@ -37,7 +37,7 @@
 				</div>
 			</c:if>
 			<c:if test="${r.rere eq 1 }">
-				ㄴ${r.content }
+				&nbsp;&nbsp;ㄴ${r.content }
 				<button class="rereplyDelete" data-re_no="${r.re_no }">삭제</button><br>
 			</c:if>
 		</c:forEach>
