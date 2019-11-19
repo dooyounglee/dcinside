@@ -22,16 +22,15 @@
 	해설: ${p.solve }<br>
 	<br>
 	
-	<c:if test="${empty vlist }">
+	<c:if test="${empty v }">
 	
 	</c:if>
-	<c:if test="${!empty vlist }">
-		문제: ${p.problem }<br>
-		정답: ${p.solution }<br>
-		해설: ${p.solve }<br>
+	<c:if test="${!empty v }">
+		문제: ${ranp.problem }<br>
+		정답: ${ranp.solution }<br>
+		해설: ${ranp.solve }<br>
 	</c:if>
-	
-	
+
 	<a href="edit.pro?p_no=${p.p_no }">수정</a>
 </body>
 </html>

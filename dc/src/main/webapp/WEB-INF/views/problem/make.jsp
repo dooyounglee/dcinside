@@ -12,12 +12,14 @@
 	<h1>문제만들기</h1>
 	
 	<c:set var="aaa" value="make"/>
+	<c:set var="p_no" value="0"/>
 	<c:if test="${!empty p }">
 		<c:set var="aaa" value="edit"/>
+		<c:set var="p_no" value="${p.p_no }"/>
 	</c:if>
 	
 	<form action="${aaa }.pro" method="post" autocomplete=off>
-		<input type="hidden" name="p_no" value="${p.p_no }">
+		<input type="hidden" name="p_no" value="${p_no }">
 		문제:<input name="problem" value="${p.problem }"><br>
 		정답:<input name="solution" value="${p.solution }"><br>
 		해설:<input name="solve" value="${p.solve }"><br>
@@ -25,13 +27,16 @@
 
 		<button>만들기</button>
 	</form>
-
-	<button id="addBtn">추가</button>
-	<div id="variablesArea">
-		<c:forEach var="v" items="${vlist }">
-			<input name="val" value="${v.val }"><button onclick="editBtn(this,${v.v_no })">수정</button><button onclick="delBtn(this,${v.v_no })">삭제</button><br>
-		</c:forEach>
-	</div>
+	
+	<c:if test="${!empty p }">
+		<button id="addBtn">추가</button>
+		<div id="variablesArea">
+			<c:forEach var="v" items="${vlist }">
+				<input name="val" value="${v.val }"><button onclick="editBtn(this,${v.v_no })">수정</button><button onclick="delBtn(this,${v.v_no })">삭제</button><br>
+			</c:forEach>
+		</div>
+	</c:if>
+	
 	<script>
 		$('#addBtn').click(function(){
 			$('#variablesArea').append('<input name="val"><button onclick="okBtn(this)">확인</button><button id="cancleBtn">취소</button><br>')
