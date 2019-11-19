@@ -12,3 +12,15 @@ CREATE SEQUENCE seq_galA;
 
 INSERT INTO gallist values(seq_gallist.nextval,'a');
 INSERT INTO gallist values(seq_gallist.nextval,'b');
+
+DROP TABLE problem;
+CREATE TABLE problem(
+	p_no NUMBER PRIMARY KEY,
+	problem varchar2(4000),
+	solve varchar2(4000),
+	solution varchar2(4000)
+);
+
+INSERT INTO problem VALUES(
+1, '이차함수 \(f(x)=ax^2+bx+c\)의 \(x=1\)에서의 미분계수를 구하세요.', '\(f\)를 \(x\)에 대해서 미분하면 \(f'(x)=2·ax+b\)이므로 \(f'(1)=2·a+b=c\)', '\(c\)'
+);
