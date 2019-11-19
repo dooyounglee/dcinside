@@ -1,7 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="problemMapper">
-	<select id="getProblem" resultType="Problem">
-		select * from problem where p_no=1
+	<select id="getProblemList" resultType="Problem">
+		select * from problem
 	</select>
+	
+	<insert id="insertProblem">
+		INSERT INTO problem VALUES(seq_problem.nextval,#{problem},#{solve},#{solution},#{keyval})
+		<selectKey keyProperty="p_no" resultType="int" order="AFTER">
+			select seq_problem.currval from dual
+		</selectKey>
+	</insert>
+	
+	<insert id="insertVariables">
+		INSERT INTO variables VALUES(seq_variables.nextval,#{p_no},#{val})
+		<selectKey keyProperty="p_no" resultType="int" order="AFTER">
+			select seq_problem.currval from dual
+		</selectKey>
+	</insert>
+	
+	<select id="getProblem" resultType="Problem">
+		select * from problem where p_no=#{p_no}
+	</select>
+	
+	<select id="getVariables" resultType="Variables">
+		select * from variables where p_no=#{p_no}
+	</select>
+	
+	<update id="updateProblem">
+		update problem set
+		problem=#{problem},
+		solve=#{solve},
+		solution=#{solution},
+		keyval=#{keyval}
+		where p_no=#{p_no}
+	</update>
+	
+	<insert id="okVariables">
+		insert into variables values(seq_variables.nextval,#{p_no},#{val})
+	</insert>
+	
+	<delete id="delVariables">
+		delete from variables where v_no=#{v_no}
+	</delete>
+	
+	<update id="editVariables">
+		update variables set
+		val=#{val}
+		where v_no=#{v_no}
+	</update>
 </mapper>

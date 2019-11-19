@@ -10,6 +10,7 @@
 		<typeAlias type="com.kh.dc.gallary.Reply" alias="Reply"/>
 		<typeAlias type="com.kh.dc.gallary.Gallary" alias="Gallary"/>
 		<typeAlias type="com.kh.dc.problem.Problem" alias="Problem"/>
+		<typeAlias type="com.kh.dc.problem.Variables" alias="Variables"/>
 	</typeAliases>
 	
 	<mappers><!-- sql문 -->

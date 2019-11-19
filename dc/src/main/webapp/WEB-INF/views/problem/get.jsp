@@ -1,11 +1,3 @@
-<%@page import="java.util.Set"%>
-<%@page import="java.util.Map"%>
-<%@page import="java.util.Collection"%>
-<%@page import="java.util.List"%>
-<%@page import="java.util.Iterator"%>
-<%@page import="org.json.simple.JSONObject"%>
-<%@page import="com.google.gson.JsonObject"%>
-<%@page import="com.kh.dc.problem.Problem"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -24,26 +16,22 @@
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
-<c:forEach var="i" begin="1" end="10">
+	<h1>문제 상세보기</h1>
 	문제: ${p.problem }<br>
 	정답: ${p.solution }<br>
 	해설: ${p.solve }<br>
-</c:forEach>
-
-<textarea id="math" rows="10" cols="50"></textarea><br>
-<iframe id=iframe name="math" src="preview" height="500px" width="100%">
-
-</iframe>
-
-<form action="preview" name="form1" target="math">
-	<input id="mathinput" name="math">
-</form>
-<script>
-	$('#math').on('input',function(){
-		$('#mathinput').val($('#math').val())
-		document.form1.submit()
-	})
-</script>
-
+	<br>
+	
+	<c:if test="${empty vlist }">
+	
+	</c:if>
+	<c:if test="${!empty vlist }">
+		문제: ${p.problem }<br>
+		정답: ${p.solution }<br>
+		해설: ${p.solve }<br>
+	</c:if>
+	
+	
+	<a href="edit.pro?p_no=${p.p_no }">수정</a>
 </body>
 </html>

@@ -9,4 +9,5 @@ public class Problem {
 	private String problem;
 	private String solve;
 	private String solution;
+	private String keyval;
 }
