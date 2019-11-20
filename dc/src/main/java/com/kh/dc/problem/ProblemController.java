@@ -36,29 +36,29 @@ public class ProblemController {
 	}
 	
 	@PostMapping("/make.pro")
-	public ModelAndView makePost(Problem p, String[] val, ModelAndView mv) {
+	public ModelAndView makePost(Problem p, ModelAndView mv) {
 		System.out.println(p);
 		sqlSession.insert("problemMapper.insertProblem",p);
 		Problem newp=p;
 		System.out.println(newp);
 		
 		//ArrayList<Variables> vlist=new ArrayList<Variables>();
-		for(String v : val) {
-			Variables vv=new Variables();
-			vv.setP_no(p.getP_no());
-			vv.setVal(v);
-			sqlSession.insert("problemMapper.insertVariables",vv);
-		}
-		mv.setViewName("redirect:/list.pro");
+//		for(String v : val) {
+//			Variables vv=new Variables();
+//			vv.setP_no(p.getP_no());
+//			vv.setVal(v);
+//			sqlSession.insert("problemMapper.insertVariables",vv);
+//		}
+		mv.setViewName("redirect:/get.pro?p_no="+p.getP_no());
 		return mv;
 	}
 	
 	@GetMapping("/get.pro")
 	public ModelAndView get(int p_no, ModelAndView mv) {
 		Problem p=sqlSession.selectOne("problemMapper.getProblem",p_no);
-		List<Variables> vlist=sqlSession.selectList("problemMapper.getVariables",p_no);
-		//mv=abc(p_no,mv);
-		mv.addObject("vlist", vlist);
+		//List<Variables> vlist=sqlSession.selectList("problemMapper.getVariables",p_no);
+		mv=abc(p,mv);
+		//mv.addObject("vlist", vlist);
 		mv.addObject("p", p);
 		mv.setViewName("problem/get");
 		return mv;
@@ -157,40 +157,44 @@ public class ProblemController {
 	
 	
 	
-	public ModelAndView abc(int p_no, ModelAndView mv) {
-		Problem p=sqlSession.selectOne("problemMapper.getProblem",p_no);
-		List<Variables> vlist=sqlSession.selectList("problemMapper.getVariables",p_no);
-		int random=(int)(Math.random()*vlist.size());
-		Variables v=vlist.get(random);
-		
-		System.out.println(p);
-		System.out.println(v);
-		String strp=p.getProblem();
-		String strs=p.getSolve();
-		String strsolu=p.getSolution();
-		String[] keyval=p.getKeyval().split(",");
-		String[] val=v.getVal().split(",");
-		
-		JSONObject jo=new JSONObject();
-		for(int i=0;i<keyval.length;i++) {
-			jo.put(keyval[i], val[i]);
+	public ModelAndView abc(Problem p, ModelAndView mv) {
+		//Problem p=sqlSession.selectOne("problemMapper.getProblem",p_no);
+		List<Variables> vlist=sqlSession.selectList("problemMapper.getVariables",p.getP_no());
+		if(vlist.size()>0) {
+			int random=(int)(Math.random()*vlist.size());
+			Variables v=vlist.get(random);
+			
+			System.out.println(p);
+			System.out.println(v);
+			String strp=p.getProblem();
+			String strs=p.getSolve();
+			String strsolu=p.getSolution();
+			String[] keyval=p.getKeyval().split(",");
+			String[] val=v.getVal().split(",");
+			
+			JSONObject jo=new JSONObject();
+			for(int i=0;i<keyval.length;i++) {
+				jo.put(keyval[i], val[i]);
+			}
+			
+			Set<String> i=jo.keySet();
+			Iterator<String> it=i.iterator();
+			while(it.hasNext()){
+				String temp=it.next();
+				strp=strp.replaceAll(temp, (String)jo.get(temp));
+				strs=strs.replaceAll(temp, (String)jo.get(temp));
+				strsolu=strsolu.replaceAll(temp, (String)jo.get(temp));
+			}
+			
+			Problem ranp=new Problem();
+			ranp.setProblem(strp);
+			ranp.setSolve(strs);
+			ranp.setSolution(strsolu);
+			
+			mv.addObject("ranp", ranp);
+			//mv.addObject("v", v);
 		}
 		
-		Set<String> i=jo.keySet();
-		Iterator<String> it=i.iterator();
-		while(it.hasNext()){
-			String temp=it.next();
-			strp=strp.replaceAll(temp, (String)jo.get(temp));
-			strs=strs.replaceAll(temp, (String)jo.get(temp));
-			strsolu=strsolu.replaceAll(temp, (String)jo.get(temp));
-		}
-		
-		p.setProblem(strp);
-		p.setSolve(strs);
-		p.setSolution(strsolu);
-		
-		mv.addObject("p", p);
-		mv.addObject("v", v);
 		return mv;
 	}
 }

@@ -22,10 +22,8 @@
 	해설: ${p.solve }<br>
 	<br>
 	
-	<c:if test="${empty v }">
-	
-	</c:if>
-	<c:if test="${!empty v }">
+	<h1>학생화면</h1>
+	<c:if test="${!empty ranp }">
 		문제: ${ranp.problem }<br>
 		정답: ${ranp.solution }<br>
 		해설: ${ranp.solve }<br>
